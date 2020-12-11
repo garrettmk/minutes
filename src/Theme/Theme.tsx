@@ -1,32 +1,9 @@
 import React from 'react';
-import { ThemeProvider, createGlobalStyle } from 'styled-components/macro';
+import { ThemeProvider, createGlobalStyle, DefaultTheme } from 'styled-components/macro';
 
+// Note: DefaultTheme is extended as per the following: https://styled-components.com/docs/api#create-a-declarations-file
 
-export type MinutesTheme = {
-  typography: {
-    
-    body: { 
-      fontFamily: string,
-      fontSize: string,
-      lineHeight: number,
-    },
-  },
-
-  palette: {
-    background: string,
-    
-    primary: {
-      main: string,
-    },
-
-    text: {
-      primary: string,
-      secondary: string,
-    }
-  }
-};
-
-export const theme: MinutesTheme = {
+export const theme: DefaultTheme = {
   typography: {
     body: { 
       fontFamily: `'Roboto', sans-serif`,
@@ -36,9 +13,12 @@ export const theme: MinutesTheme = {
   },
   palette: {
     background: '#242625',
+    overlay: 'rgba(0, 0, 0, .25)',
+
     primary: {
       main: '#51CF7B'
     },
+    
     text: {
       primary: 'rgba(255, 255, 255, 0.87)',
       secondary: 'rgba(255, 255, 255, 0.54)'
@@ -46,7 +26,7 @@ export const theme: MinutesTheme = {
   }
 };
 
-const GlobalStyles = createGlobalStyle<{ theme: MinutesTheme }>`
+const GlobalStyles = createGlobalStyle`
   body { 
     background-color: ${({ theme }) => theme.palette.background};
     color: ${({ theme }) => theme.palette.text.primary};
