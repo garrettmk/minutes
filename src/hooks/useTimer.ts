@@ -2,19 +2,18 @@ import React from 'react';
 import { useMachine } from 'react-robot';
 import { createMachine, guard, invoke, reduce, state, transition } from 'robot3';
 
-
 export interface TimerContext {
   duration: number,
   ticks: number,
   currentTick?: number,
 };
 
-export type SetDurationEvent = {
+type SetDurationEvent = {
   type: 'setDuration',
   duration: number
 };
 
-export type SetTicksEvent = {
+type SetTicksEvent = {
   type: 'setTicks',
   ticks: number
 };
