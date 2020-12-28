@@ -9,12 +9,6 @@ export const parameters = {
 
 export const decorators = [
   Story => (
-    <div css={`display: inline-block; border: 1px dotted ${({ theme }) => theme.palette.text.secondary};`}>
-      <Story/>
-    </div>
-  ),
-
-  Story => (
     <Theme>
       <Story/>
     </Theme>
