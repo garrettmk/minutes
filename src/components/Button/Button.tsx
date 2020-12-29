@@ -14,12 +14,12 @@ const Button = styled.button`
   text-transform: uppercase;
   ${typographyVariant('button')}
 
-  :hover {
+  :hover, &.__hover {
     background-color: ${ props => Color(props.theme.palette.primary.main).fade(0.9).string() };
     border-color: ${ props => props.theme.palette.primary.main };
   }
 
-  :active {
+  :active, &.__active {
     background-color: ${ props => Color('white').fade(0.9).string() };
   }
 

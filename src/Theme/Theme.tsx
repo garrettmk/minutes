@@ -17,7 +17,7 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 
-export default function Theme({ children }: { children: React.ReactNode }) {
+export default function Theme({ children }: { children?: React.ReactNode }) {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles/>
