@@ -76,7 +76,7 @@
       "node_modules/(?!(react-robot)/)"
     ],
     "moduleNameMapper": {
-      "test-utils": "<rootDir>/src/test-utils"
+      "^utilities(.*)": "<rootDir>/src/utilities$1"
     }
   }
 }

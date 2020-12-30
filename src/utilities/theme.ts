@@ -15,7 +15,3 @@ export function typographyVariant(variant: keyof DefaultTheme['typography']) {
     `;
   }
 }
-
-export function clamp(min: number, value: number, max: number) {
-  return Math.max(min, Math.min(max, value));
-}
