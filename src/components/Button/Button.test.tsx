@@ -1,5 +1,5 @@
 import React from 'react';
-import { generateImage, render } from 'test-utils';
+import { generateImage, render } from 'utilities/testing';
 import { Active, Default, Hovered } from './Button.stories';
 
 

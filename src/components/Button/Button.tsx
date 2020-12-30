@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { typographyVariant } from '../../utilities';
+import { typographyVariant } from '../../utilities/theme';
 import Color from 'color';
 
 const Button = styled.button`

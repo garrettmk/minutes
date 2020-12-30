@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { DefaultTheme } from 'styled-components/macro';
-import { typographyVariant } from '../../utilities';
+import { typographyVariant } from '../../utilities/theme';
 
 
 const DurationInput = styled.input.attrs(props => ({
@@ -24,6 +24,11 @@ const DurationInput = styled.input.attrs(props => ({
 
   :focus:not(:read-only) {
     border-bottom-color: ${ props => props.theme.palette.primary.main };
+    
+  }
+
+  :focus {
+    outline: none;
   }
 
   -moz-appearance: textfield !important;

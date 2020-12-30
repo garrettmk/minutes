@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTheme } from 'styled-components/macro';
 import { useAnimationFrame } from '../../hooks';
-import { clamp } from '../../utilities';
 
 
 export default function CircularProgress({
@@ -62,4 +61,8 @@ export default function CircularProgress({
       ref={canvasRef}
     />
   );
+}
+
+function clamp(min: number, value: number, max: number) {
+  return Math.max(min, Math.min(max, value));
 }

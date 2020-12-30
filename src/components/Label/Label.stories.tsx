@@ -1,7 +1,8 @@
 import React from 'react';
 import Label, { LabelProps } from './';
+import type { Story } from '@storybook/react';
 
-export default {
+const story = {
   title: 'Label',
   component: Label,
   argTypes: {
@@ -21,10 +22,16 @@ export default {
   }
 };
 
-const Template = (args: LabelProps) => <Label {...args}>The quick brown fox...</Label>;
+export default story;
 
-export const Hero = Template.bind({});
-// Hero.args = { variant: 'hero' };
+const Template = (args: any) => <Label {...args}>The quick brown fox...</Label>;
 
-export const Body = Template.bind({});
-// Body.args = { variant: 'body' };
+export const Hero: Story = Template.bind({});
+Hero.args = { 
+  variant: 'hero'
+};
+
+export const Body: Story = Template.bind({});
+Body.args = {
+  variant: 'body'
+};
