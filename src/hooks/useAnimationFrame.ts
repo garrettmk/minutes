@@ -1,16 +1,18 @@
 import React from 'react';
 
-export function useAnimationFrame(callback: (timeDelta: number) => void, deps: any[] = []) {
+export function useAnimationFrame(callback: (timeDelta: number) => any, deps: any[] = []) {
   const requestRef = React.useRef(0);
   const previousTimeRef = React.useRef(performance.now());
 
   const animate = React.useCallback(() => {
     const now = performance.now();
     const timeDelta = now - previousTimeRef.current;
-    callback(timeDelta);
+    const scheduleAgain = callback(timeDelta);
 
-    previousTimeRef.current = now;
-    requestRef.current = requestAnimationFrame(animate);
+    if (scheduleAgain) {
+      previousTimeRef.current = now;
+      requestRef.current = requestAnimationFrame(animate);
+    }
     
     // I don't want to have to memoize the callback outside of this hook, which is
     // why it's not included in the dependencies.
@@ -18,9 +20,12 @@ export function useAnimationFrame(callback: (timeDelta: number) => void, deps: a
   }, [...deps]);
 
   React.useEffect(() => {
+    if (requestRef.current)
+      cancelAnimationFrame(requestRef.current);
+
     previousTimeRef.current = performance.now();
-    const requestId = requestAnimationFrame(animate);
-    requestRef.current = requestId;
-    return () => cancelAnimationFrame(requestId);
+    requestRef.current = requestAnimationFrame(animate);
+
+    return () => { requestRef.current && cancelAnimationFrame(requestRef.current) };
   }, [animate]);
 }

@@ -18,9 +18,25 @@ afterEach(() => {
 });
 
 
-it('should call callback on each animation frame', () => {
+it('should call callback on next animation frame only', () => {
   const callback = jest.fn();
-  const { result } = renderHook((deps: any[]) => useAnimationFrame(callback, deps), { initialProps: [0] });
+  const { result } = renderHook(() => useAnimationFrame(callback));
+  act(() => { clock.runToFrame(); });
+
+  expect(callback).toHaveBeenCalledTimes(1);
+  expect(callback.mock.calls[0][0]).toBeGreaterThan(0);
+  callback.mockClear();
+
+  act(() => { clock.runToFrame(); });
+
+  expect(callback).not.toHaveBeenCalled();
+});
+
+
+it('should re-register the callback if it returns true', () => {
+  const callback = jest.fn().mockReturnValue(true);
+
+  const { result } = renderHook(() => useAnimationFrame(callback));
   act(() => { clock.runToFrame(); });
 
   expect(callback).toHaveBeenCalledTimes(1);
@@ -32,9 +48,10 @@ it('should call callback on each animation frame', () => {
   expect(callback.mock.calls[0][0]).toBeGreaterThan(0);
 });
 
-it('should re-register callback only if deps change', () => {
-  const callback1 = jest.fn();
-  const callback2 = jest.fn();
+
+it('should use new callback only if deps change', () => {
+  const callback1 = jest.fn().mockReturnValue(true);
+  const callback2 = jest.fn().mockReturnValue(true);
 
   // First render, use callback1
   const { rerender } = renderHook((args: UseAnimationFrameProps) => useAnimationFrame(...args), { initialProps: [callback1, [1]] });
@@ -69,10 +86,11 @@ it('should re-register callback only if deps change', () => {
   // Advance a frame, check that new callback is used
   act(() => { clock.runToFrame(); });
 
-  // expect(callback1).not.toHaveBeenCalled();
+  expect(callback1).not.toHaveBeenCalled();
   expect(callback2).toHaveBeenCalledTimes(1);
   expect(callback2.mock.calls[0][0]).toBeGreaterThan(0);
 });
+
 
 it('should cancel the callback if the component is unmounted', async () => { 
   const callback = jest.fn();
@@ -90,5 +108,5 @@ it('should cancel the callback if the component is unmounted', async () => {
 
   expect(cancelAnimationFrame).toHaveBeenCalledTimes(1);
   expect(cancelAnimationFrame).toHaveBeenCalledWith(requestId);
-  // expect(callback).not.toHaveBeenCalled();
+  expect(callback).not.toHaveBeenCalled();
 });
