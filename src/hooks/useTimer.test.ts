@@ -18,6 +18,8 @@ function renderUseTimerForTesting() {
   
   const start = () => result.current.start();
   const reset = () => result.current.reset();
+  const pause = () => result.current.pause();
+  const resume = () => result.current.resume();
   const state = () => result.current.state;
   const duration = () => result.current.duration;
   const setDuration = (duration: number) => result.current.setDuration(duration);
@@ -51,6 +53,8 @@ function renderUseTimerForTesting() {
     result,
     start,
     reset,
+    pause,
+    resume,
     state,
     duration,
     setDuration,
@@ -149,6 +153,45 @@ it('should update currentTick after each interval', async () => {
 
   await advanceByTicks(ticks());
   expect(currentTick()).toEqual(ticks());
+});
+
+
+it('should enter the "paused" state after calling pause()', async () => {
+  const { start, pause, advanceByTicks, currentTick, state, tickDurationInMs } = renderUseTimerForTesting();
+  act(() => start());
+  await advanceByTicks(1);
+  expect(state()).toBe('running');
+  expect(currentTick()).toBe(1);
+
+  act(() => pause());
+  expect(state()).toBe('paused');
+});
+
+
+it('should not advance currentTick while in the "paused" state', async () => {
+  const { start, pause, currentTick, state, tickDurationInMs } = renderUseTimerForTesting();
+  act(() => start());
+  act(() => pause());
+  expect(currentTick()).toBe(0);
+  expect(state()).toBe('paused');
+
+  await act(async () => {
+    jest.advanceTimersByTime(tickDurationInMs());
+    await Promise.resolve();
+  });
+
+  expect(currentTick()).toBe(0);
+});
+
+
+it.only('should enter the "running" state after resume() is called', async () => {
+  const { start, pause, resume, state } = renderUseTimerForTesting();
+  act(() => start());
+  act(() => pause());
+  expect(state()).toBe('paused');
+
+  act(() => resume());
+  expect(state()).toBe('running');
 });
 
 

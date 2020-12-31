@@ -1,5 +1,5 @@
 import React from 'react';
-import { createMachine, guard, interpret, invoke, reduce, Service, state, transition } from 'robot3';
+import { createMachine, guard, immediate, interpret, invoke, reduce, Service, state, transition } from 'robot3';
 
 export interface TimerContext {
   duration: number,
@@ -54,6 +54,16 @@ export const timerMachine = createMachine({
     
     transition('error', 'finished'),
 
+    transition('pause', 'paused'),
+    
+    transition('reset', 'stopped',
+      reduce(resetContext)
+    ),
+  ),
+
+  paused: state(
+    transition('resume', 'running'),
+    
     transition('reset', 'stopped',
       reduce(resetContext)
     )
@@ -154,6 +164,8 @@ export function useTimer(initialValues?: Partial<TimerContext>) {
   
   const start = React.useCallback(() => service.send('start'), [service]);
   const reset = React.useCallback(() => service.send('reset'), [service]);
+  const pause = React.useCallback(() => service.send('pause'), [service]);
+  const resume = React.useCallback(() => service.send('resume'), [service]);
   const setDuration = React.useCallback((duration) => service.send({ type: 'setDuration', duration }), [service]);
   const setTicks = React.useCallback((ticks) => service.send({ type: 'setTicks', ticks }), [service]);
 
@@ -166,7 +178,9 @@ export function useTimer(initialValues?: Partial<TimerContext>) {
     setTicks: setTicks,
     currentTick: service.context.currentTick,
     start,
-    reset
+    reset,
+    pause,
+    resume,
   });
 
   function onUpdate(service: Service<TimerMachine>) {
@@ -179,7 +193,9 @@ export function useTimer(initialValues?: Partial<TimerContext>) {
       setTicks: setTicks,
       currentTick: service.context.currentTick,
       start,
-      reset
+      reset,
+      pause,
+      resume
     });
   }
 
