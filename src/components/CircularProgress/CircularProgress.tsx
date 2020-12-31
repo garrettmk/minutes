@@ -20,12 +20,10 @@ export default function CircularProgress({
 
     const actualRatio = actualRatioRef.current;
     const diff = ratio - actualRatio;
-    const sign = diff < 0 ? -1 : 1;
-    const ratioDelta = clamp(
-      0, 
-      Math.abs(diff * timeDelta * 0.01), 
-      Math.abs(diff)
-    ) * sign;
+    const ratioDelta = Math.abs(diff) < 0.001 
+      ? diff 
+      : diff * timeDelta * 0.01;
+
     const drawRatio = actualRatio + ratioDelta;
 
     const center = { x: width / 2, y: height / 2 };
@@ -52,6 +50,9 @@ export default function CircularProgress({
 
     // Update refs
     actualRatioRef.current = drawRatio;
+
+    const shouldContinueAnimating = drawRatio !== ratio;
+    return shouldContinueAnimating;
   }, [theme, width, height, thickness, startAngle, ratio]);
 
   return (
