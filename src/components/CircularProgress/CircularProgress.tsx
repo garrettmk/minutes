@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from 'styled-components/macro';
-import { useAnimationFrame } from '../../hooks';
+import { useAnimationFrame } from 'hooks';
 
 
 export default function CircularProgress({
@@ -37,7 +37,7 @@ export default function CircularProgress({
     ctx.beginPath();
     ctx.strokeStyle = theme.palette.overlay;
     ctx.lineWidth = thickness;
-    ctx.arc(center.x, center.y, radius, 0, 2 * Math.PI);
+    ctx.arc(center.x, center.y, radius, startAngle, startAngle + 2 * Math.PI);
     ctx.stroke();
 
     // Draw the progress arc

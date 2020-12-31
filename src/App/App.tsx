@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components/macro';
-import Button from '../components/Button';
-import CircularProgress from '../components/CircularProgress';
-import DurationInput from '../components/DurationInput';
-import Label from '../components/Label';
-import { useTimer } from '../hooks';
+import Button from 'components/Button';
+import CircularProgress from 'components/CircularProgress';
+import DurationInput from 'components/DurationInput';
+import Label from 'components/Label';
+import { useTimer } from 'hooks';
 import Theme from '../Theme';
 
 
