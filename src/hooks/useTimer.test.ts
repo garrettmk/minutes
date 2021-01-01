@@ -184,7 +184,7 @@ it('should not advance currentTick while in the "paused" state', async () => {
 });
 
 
-it.only('should enter the "running" state after resume() is called', async () => {
+it('should enter the "running" state after resume() is called', async () => {
   const { start, pause, resume, state } = renderUseTimerForTesting();
   act(() => start());
   act(() => pause());

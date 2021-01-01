@@ -8,6 +8,10 @@ import { useTimer } from 'hooks';
 import Theme from '../Theme';
 
 
+const SecondaryButton = styled(Button)`
+  margin-left: 30px;
+`;
+
 
 function App() {
   const timer = useTimer();
@@ -36,17 +40,15 @@ function App() {
             height={350}
             ratio={completionRatio}
           />
-          <div
-            css={`
-              display: flex;
-              flex-direction: column;
-              align-items: center;
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-            `}
-          >
+          <div css={`
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+          `}>
             <DurationInput
               readOnly={timer.state !== 'stopped'}
               value={timer.state === 'stopped' ? timer.duration : timer.remainingDuration}
@@ -68,10 +70,9 @@ function App() {
           </div>
         </div>
         <div css={`
-          display: flex;
-          flex-direction: column;
-          align-items: center;
           margin-top: 24px;
+          display: flex;
+          justify-content: center;
         `}>
           {timer.state === 'stopped' ? (
             <Button onClick={timer.start}>
@@ -81,6 +82,18 @@ function App() {
             <Button onClick={timer.reset}>
               Reset
             </Button>
+          )}
+
+          {timer.state === 'running' && (
+            <SecondaryButton onClick={timer.pause}>
+              Pause
+            </SecondaryButton>
+          )}
+
+          {timer.state === 'paused' && (
+            <SecondaryButton onClick={timer.resume}>
+              Resume
+            </SecondaryButton>
           )}
         </div>
       </div>
