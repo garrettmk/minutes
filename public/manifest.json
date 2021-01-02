@@ -1,6 +1,6 @@
 {
   "short_name": "Minutes",
-  "name": "A simple timer app",
+  "name": "A simple timer app, written in React",
   "icons": [
     {
       "src": "favicon.ico",
