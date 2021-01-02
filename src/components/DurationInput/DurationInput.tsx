@@ -7,6 +7,7 @@ const DurationInput = styled.input.attrs(props => ({
   type: 'number',
   min: 0,
   step: 1,
+  'aria-label': 'Duration',
 }))`
   ${typographyVariant('hero')}
   background-color: ${ props => props.theme.palette.overlay };
