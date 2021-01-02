@@ -1,4 +1,5 @@
 {
+  "homepage": "http://garrettmk.github.io/minutes",
   "name": "minutes",
   "version": "0.1.0",
   "private": true,
@@ -28,7 +29,9 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public",
-    "chromatic": "npx chromatic --project-token mem49rwage"
+    "chromatic": "npx chromatic --project-token mem49rwage",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -67,6 +70,7 @@
     "babel-plugin-macros": "^3.0.0",
     "chromatic": "^5.5.0",
     "cypress": "^6.0.1",
+    "gh-pages": "^3.1.0",
     "jest-image-snapshot": "^4.3.0",
     "jsdom-screenshot": "^4.0.0",
     "react-test-renderer": "^17.0.1"
