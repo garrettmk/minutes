@@ -4,8 +4,11 @@ import Button from 'components/Button';
 import CircularProgress from 'components/CircularProgress';
 import DurationInput from 'components/DurationInput';
 import Label from 'components/Label';
-import { useTimer } from 'hooks';
+import { useTimer, useSoundEffect } from 'hooks';
 import Theme from '../Theme';
+
+import TickTock from 'sounds/ticktock.wav';
+import DingSound from 'sounds/ding2.wav';
 
 
 const SecondaryButton = styled(Button)`
@@ -21,6 +24,9 @@ function App() {
     timer.setDuration(value);
     timer.setTicks(value * 60);
   };
+
+  useSoundEffect(TickTock, () => timer.state === 'running', [timer.state]);
+  useSoundEffect(DingSound, () => timer.state === 'finished', [timer.state]);
   
   return (
     <Theme>
