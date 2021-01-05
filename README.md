@@ -1,5 +1,6 @@
 # Minutes
 
+![Tests](https://github.com/garrettmk/minutes/workflows/Run%20tests/badge.svg)
 ![Deploy to GitHub Pages](https://github.com/garrettmk/minutes/workflows/Deploy%20to%20GitHub%20Pages/badge.svg)
 
 Minutes is a simple timer app, similar to the timer function in iOS: you tell it how long to run, and you get a reminder when it's finished. I wanted a very simple project I could use to practice conceptualizing, designing, building and deploying an app - basically, all the *other* parts of creating an app, besides writing code.
