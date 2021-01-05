@@ -10,4 +10,4 @@ jobs:
       - name: npm install and test
         run: |
           npm ci
-          CI=true npm test --updateSnapshot
+          CI=true react-scripts test --updateSnapshot
