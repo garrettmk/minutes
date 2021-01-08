@@ -59,11 +59,15 @@ const SelectInner = styled.select`
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
-  line-height: inherit;
+  line-height: 1.1;
 `;
 
+export type SelectProps = {
+  [key: string]: any,
+  children: JSX.Element[]
+}
 
-const Select = React.forwardRef<HTMLSelectElement>((props, ref) => (
+const Select = React.forwardRef<HTMLSelectElement, SelectProps>((props, ref) => (
   <SelectWrapper>
     <SelectInner ref={ref} {...props}/>
   </SelectWrapper>
