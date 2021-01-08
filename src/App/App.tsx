@@ -4,15 +4,51 @@ import Button from 'components/Button';
 import CircularProgress from 'components/CircularProgress';
 import DurationInput from 'components/DurationInput';
 import Label from 'components/Label';
-import { useTimer, useSoundEffect } from 'hooks';
+import Select from 'components/Select';
+import { useTimer, useSoundEffect, useOptions } from 'hooks';
 import Theme from '../Theme';
 
 import TickTock from 'sounds/ticktock.wav';
 import DingSound from 'sounds/ding2.wav';
 
 
-const SecondaryButton = styled(Button)`
-  margin-left: 30px;
+const AppRoot = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  .hero {
+    position: relative;
+    width: 350px;
+    height: 350px;
+
+    .durationStack {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .buttonArea {
+    padding: 32px;
+    display: grid;
+    grid-template-columns: auto;
+    grid-auto-rows: auto;
+    grid-gap: 16px;
+
+    .buttonRow {
+      display: grid;
+      grid-template-rows: auto;
+      grid-auto-columns: auto;
+      grid-auto-flow: column;
+      grid-gap: 16px;
+    }
+  }
 `;
 
 
@@ -25,84 +61,73 @@ function App() {
     timer.setTicks(value * 60);
   };
 
+  const [alarmSound, selectAlarmProps] = useOptions([
+    { label: 'None', value: '' },
+    { label: 'Ding Dong', value: DingSound },
+    { label: 'Tick Tock', value: TickTock },
+  ], DingSound);
+
   useSoundEffect(TickTock, () => timer.state === 'running', [timer.state]);
-  useSoundEffect(DingSound, () => timer.state === 'finished', [timer.state]);
-  
+  useSoundEffect(DingSound, () => alarmSound && timer.state === 'finished', [timer.state]);
+
   return (
     <Theme>
-      <div css={`
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      `}>
-        <div css={`
-          position: relative;
-          width: 350px;
-          height: 350px;
-        `}>
+      <AppRoot>
+        <div className='hero'>
           <CircularProgress
             width={350}
             height={350}
             ratio={completionRatio}
           />
-          <div css={`
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-          `}>
+          <div className='durationStack'>
             <DurationInput
-              readOnly={timer.state !== 'stopped'}
-              value={timer.state === 'stopped' ? timer.duration : timer.remainingDuration}
-              onChange={setDuration}
-              css={`width: 180px;`}
-            />
-            <Label
-              variant='body'
-              color='secondary'
-              css={`
-                margin-top: 8px;
-                position: relative;
-                left: 8px;
-                letter-spacing: 16px;
-              `}
-            >
-              minutes
-            </Label>
+                readOnly={timer.state !== 'stopped'}
+                value={timer.state === 'stopped' ? timer.duration : timer.remainingDuration}
+                onChange={setDuration}
+                css={`width: 180px;`}
+              />
+              <Label
+                variant='body'
+                color='secondary'
+                css={`
+                  margin-top: 8px;
+                  position: relative;
+                  left: 8px;
+                  letter-spacing: 16px;
+                `}
+              >
+                minutes
+              </Label>
           </div>
         </div>
-        <div css={`
-          margin-top: 24px;
-          display: flex;
-          justify-content: center;
-        `}>
-          {timer.state === 'stopped' ? (
-            <Button onClick={timer.start}>
-              Start
-            </Button>
-          ) : (
-            <Button onClick={timer.reset}>
-              Reset
-            </Button>
-          )}
+        <div className='buttonArea'>
+          <Select {...selectAlarmProps}/>
 
-          {timer.state === 'running' && (
-            <SecondaryButton onClick={timer.pause}>
-              Pause
-            </SecondaryButton>
-          )}
+          <div className='buttonRow'>
+            {timer.state === 'stopped' ? (
+              <Button onClick={timer.start}>
+                Start
+              </Button>
+            ) : (
+              <Button onClick={timer.reset}>
+                Reset
+              </Button>
+            )}
 
-          {timer.state === 'paused' && (
-            <SecondaryButton onClick={timer.resume}>
-              Resume
-            </SecondaryButton>
-          )}
+            {timer.state === 'running' && (
+              <Button onClick={timer.pause}>
+                Pause
+              </Button>
+            )}
+
+            {timer.state === 'paused' && (
+              <Button onClick={timer.resume}>
+                Resume
+              </Button>
+            )}
+          </div>
         </div>
-      </div>
+      </AppRoot>
     </Theme>
   );
 }
