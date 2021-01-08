@@ -3,7 +3,7 @@ import React from 'react';
 
 export type UseSoundEffectProps = Parameters<typeof useSoundEffect>;
 
-export function useSoundEffect(url: string, trigger?: () => boolean | undefined, deps?: any[]) {
+export function useSoundEffect(url: string, trigger?: () => any, deps?: any[]) {
   const audio = React.useMemo(() => new Audio(url), [url]);
   const play = React.useCallback(() => audio.play(), [audio]);
 
