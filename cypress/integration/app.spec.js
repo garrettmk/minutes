@@ -97,9 +97,9 @@ it('should count down each minute', () => {
 
       for (let i=duration; i>0; i--) {
         checkDurationText(i);
-        cy.wait(60 * 1000 - 1);
+        cy.wait(60 * 1000 - 100);
         checkDurationText(i);
-        cy.wait(1);
+        cy.wait(100);
       }
-    })
+    });
 })
