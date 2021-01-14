@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 
-//beforeEach(() => {
-//  cy.visit('http://localhost:3000')
-//});
+beforeEach(() => {
+ cy.visit('http://localhost:3000')
+});
 
 it('should start in the stopped state', () => {
   cy.getByRole('timer')
