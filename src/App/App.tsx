@@ -101,27 +101,27 @@ function App() {
           </div>
         </div>
         <div className='buttonArea'>
-          <Select {...selectAlarmProps}/>
+          <Select data-test-id='select-alarm' {...selectAlarmProps}/>
 
           <div className='buttonRow'>
             {timer.state === 'stopped' ? (
-              <Button onClick={timer.start}>
+              <Button data-test-id='start-button' onClick={timer.start}>
                 Start
               </Button>
             ) : (
-              <Button onClick={timer.reset}>
+              <Button data-test-id='reset-button' onClick={timer.reset}>
                 Reset
               </Button>
             )}
 
             {timer.state === 'running' && (
-              <Button onClick={timer.pause}>
+              <Button data-test-id='pause-button' onClick={timer.pause}>
                 Pause
               </Button>
             )}
 
             {timer.state === 'paused' && (
-              <Button onClick={timer.resume}>
+              <Button data-test-id='resume-button' onClick={timer.resume}>
                 Resume
               </Button>
             )}
